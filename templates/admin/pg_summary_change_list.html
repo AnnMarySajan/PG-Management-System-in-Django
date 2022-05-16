@@ -1,0 +1,74 @@
+{% extends "admin/change_list.html" %}
+{% load humanize %}
+{% load mathfilters %}
+
+
+{% block content_title %}
+    <!-- <h1> PG Summary </h1> -->
+{% endblock %}
+{% block result_list %}
+
+
+<div class="results">
+    <table>
+        
+    <thead>
+      <tr>
+        <th>
+            <div class="text">
+              <a href="#">State</a>
+            </div>
+          </th>
+        <th>
+          <div class="text">
+            <a href="#">City</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">PGs Published</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Average Price</a>
+          </div>
+        </th>
+        <th>
+            <div class="text">
+              <a href="#">Listing in %</a>
+            </div>
+          </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in summary %}
+      <tr class="{% cycle 'row1' 'row2' %}">
+        <td> {{ row.statename1 }} </td>
+        <td> {{ row.cityname1 }} </td>
+        <td> {{ row.total | intcomma }} </td>
+        <td> {{ row.average_price | default:0 | intcomma }} RS </td>
+        <td>
+            <strong>
+            {{ row.total |div:summary_total.total |mul:100 }} %
+            </strong>
+          </td>
+      </tr>
+      {% endfor %}
+
+      <tr style="font-weight:bold; border-top:2px solid #DDDDDD;">
+        <td> Total </td>
+        <td></td>
+        <td> {{ summary_total.total | intcomma }} </td>
+        <td> {{ summary_total.average_price | default:0 }} Rs </td>
+        <td> 100% </td>
+    </tr>
+    </tbody>
+    
+  </table>
+</div>
+
+
+
+{% endblock %}
+{% block pagination %}{% endblock %}

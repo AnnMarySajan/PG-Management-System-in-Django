@@ -1,0 +1,183 @@
+{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifying PG</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'images/logohead.png' %}" type="image/icon type">
+</head>
+<body>
+    <header class="bg-info fixed-top">
+        <div class="row text-white">
+            <div class="col-md-6 p-3 pl-5">
+              <h1><a href="#home-section" class="text-white">BookMyPG</a></h1>
+            </div>
+    
+            <div class="col-md-6 my-auto">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                      <div class="navbar-nav ml-auto pr-5">
+                        <a class="nav-item nav-link active text-white" href="/emphome">Home <span class="sr-only">(current)</span></a>
+                        {% if user.is_authenticated %}
+                          <a class="nav-item nav-link text-white" href="#">Reports</a>
+                          {% else %}
+                          <a class="nav-item nav-link text-white" href="login">For PG Owners</a>
+                          {% endif %}
+                          {% if user.is_authenticated %}
+                          <a class="nav-item nav-link text-white" href="/logout">Hey,{{user.first_name}} Logout</a>
+                          {% else %}
+                          <a class="nav-item nav-link text-white" href="login">Login</a>
+                          <a class="nav-item nav-link text-white" href="register">Register</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-white bg-white">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="btn btn-info text-light" href="/emphome" role="button">Unverified PGs</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="/verifiedbyme" role="button">Verified By Me</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="/verification" role="button">Allotted by me</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <section style="padding-top: 9em;">
+        <div class="container">
+            <h1 class="text-center">Verify Details</h1>
+            <div class="row pt-3">
+                <div class="col-mod-12 align-items-center mx-auto">
+                    <form action="/verifing" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{roomobjs.img.url}}"
+                            alt="Card image cap" style="height: 17rem;">
+                    </div>
+                    <br>
+                    
+                    <input type="hidden" name="verifyid" value="{{verifyobjs.id}}">
+                    <input type="hidden" name="pgroomid" value="{{roomobjs.id}}">
+
+                    <div class="form-group row">
+                        <label for="pgname" class="col-sm-3 col-form-label pl-0" required>PG Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="pgname" id="pgname" placeholder="Enter PG Name" value="{{roomobjs.pgname}}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pgtype" class="col-sm-3 col-form-label pl-0">PG Type</label>
+                        <div class="col-sm-9">{{roomobjs.pgtype}}</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="statename" class="col-sm-3 col-form-label pl-0">State</label>
+                        <div class="col-sm-9">{{roomobjs.statename}}</div>
+                    </div>   
+
+                    <div class="form-group row">
+                        <label for="cityname" class="col-sm-3 col-form-label pl-0">City</label>
+                        <div class="col-sm-9">{{roomobjs.cityname}}</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pgaddress" class="col-sm-3 col-form-label pl-0">Address</label>
+                        <div class="col-sm-9">{{roomobjs.pgaddress}}</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pgaddress" class="col-sm-3 col-form-label pl-0" required>Address</label>
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="pgaddress" id="pgaddress" rows="4" placeholder="Enter Address" value="{{roomobjs.pgaddress}}">{{roomobjs.pgaddress}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="price" class="col-sm-3 col-form-label pl-0" required>Price/person</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="price" id="price" placeholder="Price per person" value="{{roomobjs.price}}" required>
+                        </div>
+                    </div> 
+
+                    <div class="form-group row">
+                        <label for="bedno" class="col-sm-3 col-form-label pl-0" required>No. of Beds</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="bedno" id="bedno" placeholder="Enter no. of beds" value="{{roomobjs.bedno}}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="descriptions" class="col-sm-3 col-form-label pl-0" required>Descriptions</label>
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="description" id="description" rows="4" placeholder="List your Amenities.." value="{{roomobjs.desc}}">{{roomobjs.desc}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="gmaplink" class="col-sm-3 col-form-label pl-0" required>Google Map Link</label>
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="gmaplink" id="gmaplink" rows="4" placeholder="Paste Goodle Map Link"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="feedback" class="col-sm-3 col-form-label pl-0" required>Feedbacks</label>
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="feedback" id="feedback" rows="4" placeholder="Enter Feedback"></textarea>
+                        </div>
+                    </div>
+            
+                    <div class="mt-3 mb-3 pl-5">
+                        <button type="submit" class="btn btn-info item-center" name="verify" value="verify">Confirm Verification</button>
+                    </div>
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div>
+      {% for message in messages %}
+      <script>
+          window.onload = function(){
+              alert('{{message}}')
+          }
+      </script>
+      {% endfor %}
+    </div>
+    
+    <footer class="bg-info">
+        <div class="container">
+            <div class="row text-white">
+                <div class="col-md-12">
+                    <p>All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+

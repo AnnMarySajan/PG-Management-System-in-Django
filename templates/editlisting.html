@@ -1,0 +1,198 @@
+{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit PG</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'images/logohead.png' %}" type="image/icon type">
+</head>
+<body>
+    
+    <header class="bg-info fixed-top">
+        <div class="row text-white">
+             <div class="col-md-12 my-auto">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                      <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link text-white" href="/"><h1>BookMyPG</h1></a>
+                      </div>
+                      <div class="navbar-nav ml-auto pr-5">
+                        <a class="nav-item nav-link active text-white" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link text-white" href="/forpgowners">For PG Owners</a>
+                        <a class="nav-item nav-link text-white" href="#contact-section">Contact</a>
+                        <a class="nav-item nav-link text-white text-center" href="/logout">Hey,{{user.first_name}} Logout</a>
+                      
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-white bg-white">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="btn btn-info text-light" href="/addnewpg" role="button">Add New PG</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="/yourpglist" role="button">Your PG List</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="/unallocatedbooking" role="button">Booking Requests</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="allocatedbooking" role="button">Confirmed Bookings</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="/refundrequest" role="button">Cancel/Refund Requests</a>
+                </li>
+                <li class="nav-item pl-2">
+                  <a class="btn btn-info text-light" href="/cancelledbookings" role="button">Cancelled Bookings</a>
+                </li>
+                 <!--
+                <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="#" role="button">Reports</a>
+              </li>
+            -->
+              </ul>
+            </div>
+        </nav>
+    
+    </header>
+ 
+    <section style="padding-top: 9em;">
+        <div class="container">
+            <h1 class="text-center">Edit Your PG Details Here</h1>
+            <div class="row pt-3">
+                <div class="col-mod-12 align-items-center mx-auto">
+                    <form action="/editlisting/" method="POST" enctype="multipart/form-data">
+                    {% for room in roomobj %}
+                    {% csrf_token %}
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{room.img.url}}"
+                            alt="Card image cap" style="height: 17rem;">
+                    </div>
+                    <br>
+                    <input type="hidden" name="roomid" value="{{room.id}}">
+
+                    <div class="form-group row">
+                        <label for="pgname" class="col-sm-3 col-form-label pl-0">PG Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="pgname" id="pgname" placeholder="Enter PG Name" value="{{room.pgname}}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pgtype" class="col-sm-3 col-form-label pl-0">PG Type</label>
+                        <div class="col-sm-9">{{room.pgtype}}</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="statename" class="col-sm-3 col-form-label pl-0">State</label>
+                        <div class="col-sm-9">{{room.statename}}</div>
+                    </div>   
+
+                    <div class="form-group row">
+                        <label for="cityname" class="col-sm-3 col-form-label pl-0">City</label>
+                        <div class="col-sm-9">{{room.cityname}}</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pgaddress" class="col-sm-3 col-form-label pl-0">Address</label>
+                        <div class="col-sm-9">{{room.pgaddress}}</div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="price" class="col-sm-3 col-form-label pl-0" required>Price/person</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="price" id="price" placeholder="Price per person" value="{{room.price}}" required>
+                        </div>
+                    </div> 
+
+                    <div class="form-group row">
+                        <label for="bedno" class="col-sm-3 col-form-label pl-0" required>No. of Beds</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="bedno" id="bedno" placeholder="Enter no. of beds" value="{{room.bedno}}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="descriptions" class="col-sm-3 col-form-label pl-0" required>Descriptions</label>
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="descriptions" id="descriptions" rows="4" placeholder="List your Amenities.." value="{{room.desc}}">{{room.desc}}</textarea>
+                        </div>
+                    </div>
+
+                    {% if room.activestatus %}
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" name="activestatus" class="form-check-input" value="" checked>Active
+                        </label>
+                    </div>
+                    {% else %} 
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" name="activestatus" class="form-check-input" value="" >Active
+                        </label>
+                    </div> 
+                    {% endif %}
+            
+                    <div class="mt-3 mb-3 pl-5">
+                        <button type="submit" class="btn btn-info item-center" name="edit" value="edit">Confirm Edit</button>
+                    </div>
+
+                    {% endfor %}
+                    </form>
+    
+                </div>
+
+                
+          
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="p-5" id="contact-section">
+      <div class="container">
+          <h1 class="text-center">Contact Us</h1>
+          <div class="row align-items-center">  
+            <div class="col-md-6">
+              <h5>BookMyPG</h5>  
+              <h5>Email: connect.bookmypg@gmail.com</h5>  
+              <h5>Phone: 9446968817</h5> 
+              <h5>Near NSS Karayogam Hall,</h5> 
+              <h5>Eroor South P.O.,</h5>
+              <h5>Tripunithura</h5>
+              <h5>Pin: 682306</h5>
+            </div>
+              
+          </div>
+        </div>
+    </section>
+    
+
+    <footer class="bg-info">
+        <div class="container">
+            <div class="row text-white">
+                <div class="col-md-12">
+                    <p>All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

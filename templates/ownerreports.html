@@ -1,0 +1,95 @@
+{% load static %}
+{% static "images" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Reports</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'images/logohead.png' %}" type="image/icon type">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+          var $select1=$('#select1'),
+              $select2=$('#select2'),
+              $options=$select2.find('option');
+              $select1.on('change',function()
+              {
+                $select2.html($options.filter('[value"'+this.value+'"]'));
+              }).trigger('change');
+        });
+    </script>
+</head>
+
+<body>
+
+  <header class="bg-info fixed-top">
+        <div class="row text-white">
+             <div class="col-md-12 my-auto">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                      <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link text-white" href="/"><h1>BookMyPG</h1></a>
+                      </div>
+                      <div class="navbar-nav ml-auto pr-5">
+                        <a class="nav-item nav-link active text-white" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link text-white" href="forpgowners">For PG Owners</a>
+                        <a class="nav-item nav-link text-white" href="#contact-section">Contact</a>
+                        {% if user.is_authenticated %}
+                        <a class="nav-item nav-link text-white text-center" href="logout">Hey,{{user.first_name}} Logout</a>
+                        {% else %}
+                        <a class="nav-item nav-link text-white" href="login">Login</a>
+                        <a class="nav-item nav-link text-white" href="register">Register</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-white bg-white">
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="btn btn-info text-light" href="addnewpg" role="button">Add New PG</a>
+              </li>
+              <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="yourpglist" role="button">Your PG List</a>
+              </li>
+              <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="/unallocatedbooking" role="button">Booking Requests</a>
+              </li>
+              <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="/allocatedbooking" role="button">Confirmed Bookings</a>
+              </li>
+              <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="/refundrequest" role="button">Cancel/Refund Requests</a>
+              </li>
+              <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="/cancelledbookings" role="button">Cancelled Bookings</a>
+              </li>
+              <li class="nav-item pl-2">
+                <a class="btn btn-info text-light" href="#" role="button">Reports</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+    
+    </header>
+
+    
+
+  
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</html>
